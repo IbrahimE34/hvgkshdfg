@@ -1,4 +1,8 @@
+import django_filters
 from django.db import models
+
+
+
 class Category(models.Model):
     name = models.CharField(max_length=15, verbose_name= "Mini name ")
     full_name = models.CharField(max_length=20, verbose_name= "Full name")
@@ -11,10 +15,6 @@ class Category(models.Model):
         verbose_name = "Категория"
         verbose_name_plural = "Категорий"
 
-
-
-
-
 class Car(models.Model):
     name = models.CharField(max_length=15)
     brand = models.CharField(max_length=30)
@@ -23,6 +23,7 @@ class Car(models.Model):
     data = models.DateField()
     category = models.ForeignKey(Category, related_name="categories", on_delete=models.CASCADE)
     discount = models.IntegerField()
+
 
     def __str__(self):
         return self.brand
@@ -34,5 +35,13 @@ class Car(models.Model):
             self.discount_price = self.full_price *( 1 - self.discount/100)
         super().save(*args, **kwargs)
 
-
+# class CarFilter(django_filters.FilterSet):
+#     full_price = django_filters.RangeFilter()
+#     brand = django_filters.CharFilter(lookup_expr="icontains")
+#     data = django_filters.DateFilter()
+#
+#
+#     class Meta:
+#         model = Car
+#         fields = ['brand', 'category', 'full_price', 'discount', 'data']
 
