@@ -1,6 +1,8 @@
+
+from django_filters.rest_framework import  DjangoFilterBackend
 import django_filters
 from django.db import models
-
+from django_filters import CharFilter
 
 
 class Category(models.Model):
@@ -23,6 +25,8 @@ class Car(models.Model):
     data = models.DateField()
     category = models.ForeignKey(Category, related_name="categories", on_delete=models.CASCADE)
     discount = models.IntegerField()
+    filter_backends = (DjangoFilterBackend)
+
 
 
     def __str__(self):
@@ -35,13 +39,4 @@ class Car(models.Model):
             self.discount_price = self.full_price *( 1 - self.discount/100)
         super().save(*args, **kwargs)
 
-# class CarFilter(django_filters.FilterSet):
-#     full_price = django_filters.RangeFilter()
-#     brand = django_filters.CharFilter(lookup_expr="icontains")
-#     data = django_filters.DateFilter()
-#
-#
-#     class Meta:
-#         model = Car
-#         fields = ['brand', 'category', 'full_price', 'discount', 'data']
 
